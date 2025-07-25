@@ -30,7 +30,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 body {
@@ -47,7 +46,6 @@ body {
 
 section,
 .section {
-  scroll-snap-align: start;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -669,11 +667,16 @@ h6 {
 }
 
 /* Timeline/Experience Section */
+/* Enhanced Timeline - Mobile First Approach */
+
 .timeline {
   position: relative;
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
+
+/* Desktop: Center line */
 .timeline::before {
   content: "";
   position: absolute;
@@ -683,79 +686,245 @@ h6 {
   width: 2px;
   background: var(--primary-color);
   transform: translateX(-50%);
-  opacity: 0.2;
+  opacity: 0.3;
 }
+
 .timeline-item {
   position: relative;
   margin-bottom: 3rem;
-  width: calc(50% - 2rem);
+  width: 100%;
 }
-.timeline-item:nth-child(odd) {
-  left: 0;
-  text-align: right;
-}
-.timeline-item:nth-child(even) {
-  left: calc(50% + 2rem);
-  text-align: left;
-}
+
+/* Mobile First: All items stack vertically */
 .timeline-content {
   background: var(--glass-bg);
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 15px;
   box-shadow: var(--shadow);
   position: relative;
   transition: all 0.3s cubic-bezier(0.77, 0, 0.18, 1);
+  border: 1.5px solid var(--border-color);
+  margin-left: 2rem; /* Space for mobile dot */
 }
+
 .timeline-content:hover {
   box-shadow: var(--neon-glow);
-  transform: translateY(-5px) scale(1.03);
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--primary-color);
 }
+
 .timeline-date {
   color: var(--primary-color);
   font-weight: 600;
   margin-bottom: 0.5rem;
+  font-size: 0.9rem;
 }
+
 .timeline-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--primary-color);
 }
+
 .timeline-company {
-  color: var(--text-secondary);
+  color: var(--accent-color);
   margin-bottom: 1rem;
+  font-weight: 500;
 }
+
 .timeline-description {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
+
 .timeline-achievements {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
+
 .timeline-achievements li {
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
   position: relative;
-  padding-left: 1rem;
+  padding-left: 1.5rem;
+  line-height: 1.5;
 }
+
 .timeline-achievements li::before {
   content: "✓";
   color: var(--accent-color);
   font-weight: bold;
   position: absolute;
   left: 0;
+  top: 0;
 }
+
+/* Mobile: Simple left-aligned dots */
 .timeline-dot {
   position: absolute;
-  left: calc(50% - 10px);
-  top: 2rem;
-  width: 20px;
-  height: 20px;
+  left: 0;
+  top: 1.5rem;
+  width: 16px;
+  height: 16px;
   background: var(--primary-color);
   border-radius: 50%;
-  border: 4px solid var(--bg-primary);
-  box-shadow: 0 0 12px var(--primary-color);
+  border: 3px solid var(--bg-primary);
+  box-shadow: 0 0 8px var(--primary-color);
+  z-index: 2;
+}
+
+/* Mobile: Vertical line on the left */
+.timeline::before {
+  left: 8px;
+  transform: none;
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+  .timeline {
+    padding: 0 2rem;
+  }
+
+  .timeline-content {
+    padding: 2rem;
+    margin-left: 0;
+  }
+
+  .timeline-title {
+    font-size: 1.3rem;
+  }
+
+  .timeline-date {
+    font-size: 1rem;
+  }
+
+  .timeline-dot {
+    width: 20px;
+    height: 20px;
+    left: calc(50% - 10px);
+    border: 4px solid var(--bg-primary);
+  }
+
+  /* Desktop: Center line */
+  .timeline::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Desktop: Alternating layout */
+  .timeline-item {
+    width: calc(50% - 2rem);
+  }
+
+  .timeline-item:nth-child(odd) {
+    left: 0;
+    text-align: right;
+  }
+
+  .timeline-item:nth-child(even) {
+    left: calc(50% + 2rem);
+    text-align: left;
+  }
+
+  /* Desktop: Arrow connectors */
+  .timeline-content::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 2rem;
+    border: 10px solid transparent;
+  }
+
+  /* Right side arrow (odd items) */
+  .timeline-item:nth-child(odd) .timeline-content::before {
+    right: -20px;
+    border-left-color: var(--border-color);
+  }
+
+  /* Left side arrow (even items) */
+  .timeline-item:nth-child(even) .timeline-content::before {
+    left: -20px;
+    border-right-color: var(--border-color);
+  }
+}
+
+/* Large Desktop Enhancements */
+@media (min-width: 1024px) {
+  .timeline {
+    max-width: 900px;
+  }
+
+  .timeline-content {
+    padding: 2.5rem;
+  }
+
+  .timeline-achievements {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Alternative: Simplified Mobile Timeline */
+@media (max-width: 767px) {
+  .timeline-simplified {
+    position: relative;
+    padding-left: 0;
+  }
+
+  .timeline-simplified::before {
+    display: none;
+  }
+
+  .timeline-simplified .timeline-item {
+    margin-bottom: 2rem;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .timeline-simplified .timeline-dot {
+    left: -9px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--bg-primary);
+  }
+
+  .timeline-simplified .timeline-content {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+}
+
+/* Compact Mobile Version */
+.timeline-compact {
+  padding: 0;
+}
+
+.timeline-compact .timeline-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--glass-bg);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+  box-shadow: var(--shadow);
+}
+
+.timeline-compact .timeline-content {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+.timeline-compact .timeline-dot,
+.timeline-compact::before {
+  display: none;
 }
 
 /* Contact Section */
